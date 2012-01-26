@@ -1,0 +1,23 @@
+check_md5
+
+A Nagios plugin written in Bash to check the MD5 sum of a single file. 
+In case the files MD5 change the plugin issues a critical state. This behavior 
+can be changed by using a --warning argument, so that only a warning state is 
+issued. 
+
+
+Options: 
+-h 
+Print detailed help screen 
+-V 
+Print version information 
+
+--warning 
+Issue a warning state instead of a critical state in case of a MD5 failure 
+Default is critical 
+
+--file /path/to/file 
+Set which file to monitor 
+
+--md5 md5checksum 
+Set the MD5 checksum for the file set by --file 
