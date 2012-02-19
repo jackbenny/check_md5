@@ -30,7 +30,7 @@
 ###############################################################################
 
 
-VERSION="1.0"
+VERSION="1.1"
 AUTHOR="(c) 2012 Jack-Benny Persson (jack-benny@cyberinfo.se)"
 
 # Exit codes
@@ -91,7 +91,7 @@ while [[ -n "$1" ]]; do
            exit $STATE_OK
            ;;
 
-       -?)
+       -\?)
 	   print_help
            exit $STATE_OK
            ;;
