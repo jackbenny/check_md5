@@ -103,7 +103,7 @@ while [[ -n "$1" ]]; do
 
        --file)
 	   if [[ -z "$2" ]]; then
-		printf "\nOption $1 requires an argument\n"
+		printf "\nOption $1 requires an argument\n | Option $1 requires an argument"
 		print_help
 		exit $STATE_UNKNOWN
 	   fi
@@ -113,7 +113,7 @@ while [[ -n "$1" ]]; do
 
        --md5)
            if [[ -z "$2" ]]; then
-                printf "\nOption $1 requires an argument\n"
+                printf "\nOption $1 requires an argument\n | Option $1 requires an argument"
 		print_help
                 exit $STATE_UNKNOWN
            fi
@@ -122,7 +122,7 @@ while [[ -n "$1" ]]; do
            ;;
 
 	*)
-           printf "\nInvalid option $1"
+           printf "\nInvalid option $1 | Invalid option $1"
            print_help
            exit $STATE_UNKNOWN
            ;;
@@ -135,14 +135,14 @@ done
 
 if [[ -z "$file" ]]; then
 	# No file specified
-	printf "\nNo file specified"
+	printf "\nNo file specified | No file specified"
 	print_help
 	exit $STATE_UNKNOWN
 fi
 
 if [[ -z "$md5" ]]; then
 	# No MD5 sum specified
-	printf "\nNo MD5 sum specified"
+	printf "\nNo MD5 sum specified | No MD5 sum specified"
 	print_help
 	exit $STATE_UNKNOWN
 fi
@@ -155,17 +155,17 @@ filesum=`md5sum ${file} | awk '{print $1}'`
 
 #Compare the MD5 on the file against the sum we provided
 if [[ "$filesum" == "$md5" ]]; then
-	printf "$file - MD5 OK\n" 
+	printf "MD5 OK - $file\n | MD5 is $md5" 
 	exit $STATE_OK
 
 #See if we wanted a warning instead of a critical
 elif [[ "$warning" == "yes" ]]; then
-		printf "$file - MD5 WARNING\n"
+		printf "MD5 WARNING - $file\n | MD5 does not match on file $file"
 		exit $STATE_WARNING
 #Critical
 else	
 
-  printf "$file - MD5 CRITICAL\n"
+  printf "MD5 CRITICAL - $file\n | MD5 does not match on file $file"
   exit $STATE_CRITICAL
 fi
 
