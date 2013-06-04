@@ -27,8 +27,10 @@
 # with the --warning argument.                                                # 
 # Written in Bash (and uses sed & awk).                                       #
 #                                                                             #
+# The latest version of check_md5.sh and check_sha512.sh can be found at:     #
+# https://github.com/jackbenny/check_md5                                      #
+#                                                                             #
 ###############################################################################
-
 
 VERSION="1.1"
 AUTHOR="(c) 2012 Jack-Benny Persson (jack-benny@cyberinfo.se)"
