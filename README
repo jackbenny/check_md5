@@ -1,10 +1,12 @@
-check_md5
+check_md5 and check_sha512
 
 A Nagios plugin written in Bash to check the MD5 sum of a single file. 
 In case the files MD5 change the plugin issues a critical state. This behavior 
 can be changed by using a --warning argument, so that only a warning state is 
 issued. 
 
+The new check_sha512.sh checks does the exact same thing except it uses sha512sum.
+Replace the --md5 flag with --sha512.
 
 Options: 
 -h 
