@@ -22,7 +22,7 @@
 
 ###############################################################################
 #                                                                             # 
-# Nagios plugin to monitor a single files MD5 sum. In case of mismatch        #
+# Nagios plugin to monitor a single files SHA512 sum. In case of mismatch     #
 # the plugin exit with a CRICITAL error code. This behavior can be changed    #
 # with the --warning argument.                                                # 
 # Written in Bash (and uses sed & awk).                                       #
@@ -33,7 +33,7 @@
 ###############################################################################
 
 VERSION="1.1"
-AUTHOR="(c) 2012 Jack-Benny Persson (jack-benny@cyberinfo.se)"
+AUTHOR="(c) 2012 Jack-Benny Persson (jack-benny@cyberinfo.se), modified for SHA512 by Ryan Loudfoot (elyrith@gmail.com)"
 
 # Exit codes
 STATE_OK=0
@@ -56,7 +56,7 @@ print_help()
 {
 	print_version
 	printf "$AUTHOR\n"
-	printf "Monitor the MD5 checksum of a single file\n"
+	printf "Monitor the SHA512 checksum of a single file\n"
 /bin/cat <<EOT
 
 Options:
@@ -66,14 +66,14 @@ Options:
    Print version information
 
 --warning
-   Issue a warning state instead of a critical state in case of a MD5 failure
+   Issue a warning state instead of a critical state in case of a SHA512 failure
    Default is critical
 
 --file /path/to/file
    Set which file to monitor
  
---md5 md5checksum
-   Set the MD5 checksum for the file set by --file
+--sha512 sha512checksum
+   Set the SHA512 checksum for the file set by --file
 
 EOT
 }
@@ -113,13 +113,13 @@ while [[ -n "$1" ]]; do
            shift 2
            ;;
 
-       --md5)
+       --sha512)
            if [[ -z "$2" ]]; then
                 printf "\nOption $1 requires an argument\n | Option $1 requires an argument"
 		print_help
                 exit $STATE_UNKNOWN
            fi
-                md5=$2
+                sha512=$2
            shift 2
            ;;
 
@@ -133,7 +133,7 @@ while [[ -n "$1" ]]; do
    esac
 done
 
-### Check if we provided a file and a MD5 sum ###
+### Check if we provided a file and a SHA512 sum ###
 
 if [[ -z "$file" ]]; then
 	# No file specified
@@ -142,9 +142,9 @@ if [[ -z "$file" ]]; then
 	exit $STATE_UNKNOWN
 fi
 
-if [[ -z "$md5" ]]; then
-	# No MD5 sum specified
-	printf "\nNo MD5 sum specified | No MD5 sum specified"
+if [[ -z "$sha512" ]]; then
+	# No SHA512 sum specified
+	printf "\nNo SHA512 sum specified | No SHA512 sum specified"
 	print_help
 	exit $STATE_UNKNOWN
 fi
@@ -153,21 +153,21 @@ fi
 ### MAIN ###
 
 #Get the current checksum of the file
-filesum=`md5sum ${file} | awk '{print $1}'`
+filesum=`sha512sum ${file} | awk '{print $1}'`
 
-#Compare the MD5 on the file against the sum we provided
-if [[ "$filesum" == "$md5" ]]; then
-	printf "MD5 OK - $file\n | MD5 is $md5" 
+#Compare the SHA512 on the file against the sum we provided
+if [[ "$filesum" == "$sha512" ]]; then
+	printf "SHA512 OK - $file\n | SHA512 is $sha512" 
 	exit $STATE_OK
 
 #See if we wanted a warning instead of a critical
 elif [[ "$warning" == "yes" ]]; then
-		printf "MD5 WARNING - $file\n | MD5 does not match on file $file"
+		printf "SHA512 WARNING - $file\n | SHA512 does not match on file $file"
 		exit $STATE_WARNING
 #Critical
 else	
 
-  printf "MD5 CRITICAL - $file\n | MD5 does not match on file $file"
+  printf "SHA512 CRITICAL - $file\n | SHA512 does not match on file $file"
   exit $STATE_CRITICAL
 fi
 
